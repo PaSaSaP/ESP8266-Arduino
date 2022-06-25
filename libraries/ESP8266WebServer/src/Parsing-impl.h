@@ -333,10 +333,12 @@ void ESP8266WebServerTemplate<ServerType>::_uploadWriteByte(uint8_t b){
 }
 
 template <typename ServerType>
-int ESP8266WebServerTemplate<ServerType>::_uploadReadByte(ClientType& client){
+int ESP8266WebServerTemplate<ServerType>::_uploadReadByte(ClientType& client, unsigned long timeout_ms){
   int res = client.read();
   if(res == -1){
-    while(!client.available() && client.connected())
+    timeout_ms *= 1000;
+    long curr_time = system_get_time();
+    while(!client.available() && client.connected() && system_get_time() - curr_time < timeout_ms)
       yield();
     res = client.read();
   }

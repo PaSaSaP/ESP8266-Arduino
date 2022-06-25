@@ -290,7 +290,7 @@ protected:
   bool _parseForm(ClientType& client, const String& boundary, uint32_t len);
   bool _parseFormUploadAborted();
   void _uploadWriteByte(uint8_t b);
-  int _uploadReadByte(ClientType& client);
+  int _uploadReadByte(ClientType& client, unsigned long timeout_ms = HTTP_MAX_DATA_WAIT);
   void _prepareHeader(String& response, int code, const char* content_type, size_t contentLength);
   bool _collectHeader(const char* headerName, const char* headerValue);
 
